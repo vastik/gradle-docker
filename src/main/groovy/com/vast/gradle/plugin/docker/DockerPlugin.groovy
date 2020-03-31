@@ -2,13 +2,12 @@ package com.vast.gradle.plugin.docker
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.Exec
 
 class DockerPlugin implements Plugin<Project> {
     void apply(Project project) {
-        def ext = project.extensions.create('docker', DockerExtension)
+        def ext = project.extensions.create('dockerConfig', DockerExtension)
 
-        project.tasks.create('docker', Exec) { task ->
+        project.tasks.create('docker') { task ->
             task.doFirst {
                 if (ext.image == null)
                     ext.image = project.name
