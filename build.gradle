@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'groovy'
+    id "com.gradle.plugin-publish" version "0.10.1"
+    id "java-gradle-plugin"
+}
+
+sourceCompatibility = 1.8
+
+version = "1.0"
+group = "com.vast.gradle"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile group: 'org.yaml', name: 'snakeyaml', version: '1.25'
+}
+
+gradlePlugin {
+    plugins {
+        docker {
+            id = 'vast.gradle-docker'
+            implementationClass = 'com.vast.gradle.plugin.docker.DockerPlugin'
+        }
+    }
+}
+
+pluginBundle {
+    website = 'https://github.com/vastik/gradle-docker-plugin'
+    vcsUrl = 'https://github.com/vastik/gradle-docker-plugin'
+    description = 'Build docker from dockerfile and push it to docker registry'
+    tags = ['docker']
+
+    plugins {
+        docker {
+            // id is captured from java-gradle-plugin configuration
+            displayName = 'Gradle docker plugin'
+        }
+    }
+}
