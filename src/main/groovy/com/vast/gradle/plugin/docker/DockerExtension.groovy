@@ -17,15 +17,16 @@ class DockerExtension {
     }
 
     void environment(String environment, Action<DockerExtension> configurator) {
-        def ext = new DockerExtension().with {
-            image = this.image
-            version = this.version
-            dockerfile = this.dockerfile
-            registry = this.registry
-            credentials = this.credentials
-            return it
+        def ext = new DockerExtension().with { docker ->
+            docker.image = this.image
+            docker.version = this.version
+            docker.dockerfile = this.dockerfile
+            docker.registry = this.registry
+            docker.credentials = this.credentials
+            configurator.execute(docker)
+            return docker
         }
-        configurator.execute(ext)
+
         project.tasks.create("docker${environment.capitalize()}", DockerTask).ext = ext
     }
 }
